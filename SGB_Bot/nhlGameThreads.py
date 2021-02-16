@@ -4,25 +4,22 @@ import requests
 import time
 import praw
 import ast
-import os
 
 sub = "ShotGlassBets"
 
 
 def main():
-    print("Connecting to reddit...")
-
     # set praw variables and connect to subreddit
-    global subreddit
+    print("Connecting to reddit...")
     r = praw.Reddit("sgb_bot", config_interpolation="basic")
     subreddit = r.subreddit(sub)
-    print("Connected!\n")
+    print(f"Connected to: {subreddit.title}")
 
-    removePosts()
-    postNHLThreads()
+    removePosts(subreddit)
+    postNHLThreads(subreddit)
 
 
-def removePosts():
+def removePosts(subreddit):
     print("Removing posts > 1.5 days old and with 0 comments")
 
     # set counters to 0
@@ -43,28 +40,30 @@ def removePosts():
         checkTime = unixTime - (unixDay * 1.5)
         createdTime = submission.created_utc
 
-        # check to see if post > 1.5 days old, if it's not stickied, and if the bot posted it
-        if (checkTime > createdTime) and (submission.stickied is False) and (postAuthor == username):
+        # check if post > 1.5 days old, if not stickied, and if bot posted it
+        if (
+            (checkTime > createdTime) and
+            (submission.stickied is False) and
+            (postAuthor == username)
+        ):
             i += 1
 
-            # now check to see which of those posts had 0 comments and remove them
+            # now see which of those posts had 0 comments and remove them
             if (numCom == 0):
                 zeroComCount += 1
                 submission.mod.remove()
-                print("Removed:", postTitle,)
-    print(zeroComCount, "of", i, "posts had 0 comments\n")
+                print(f"Removed: {postTitle}")
+    print(f"{zeroComCount} of {i} posts had 0 comments\n")
 
 
-def postNHLThreads():
-    print("Creating posts for /r/", sub)
+def postNHLThreads(subreddit):
+    print(f"Creating posts for /r/ {sub}")
 
     # get dates and set date formats
     today = date.today()
     longDay = str(today)
     simpleDay = str(today.strftime("%-m/%-d"))
-    dateFormat = "%Y-%m-%d %H:%M:%S %Z%z"
     timeFormat = "%-I:%M %p %Z"
-    cwd = os.getcwd()
 
     # create today's URL for API call
     baseURL = "https://statsapi.web.nhl.com/api/v1"
@@ -89,12 +88,12 @@ def postNHLThreads():
         teamDict = game["teams"]
         awayTeam = teamDict["away"]["team"]["name"]
         homeTeam = teamDict["home"]["team"]["name"]
-        title = "[" + simpleDay + "] " + homeTeam + " vs " + awayTeam + " (" + cleanTime + ")"
+        title = f"[{simpleDay}] {homeTeam} vs {awayTeam} ({cleanTime})"
 
         # submit post to reddit
         subreddit.submit(title, selftext="", url=None, resubmit=True, send_replies=False).mod.flair(text="NHL")
-        print("Posted:", title)
-    print(gameCount, "posts submitted\n")
+        print("Posted: {title}")
+    print(f"{gameCount} posts submitted\n")
 
 
 # run code
