@@ -1,7 +1,7 @@
 import random
 import praw
 
-sub = "Drip_Test"
+SUB = "Drip_Test"
 REPLIES = ["If it's stupid but it works, it ain't stupid!"]
 
 
@@ -9,7 +9,7 @@ def main():
 
     print("Connecting to reddit...")
     reddit = praw.Reddit("stupid_bot", config_interpolation="basic")
-    subreddit = reddit.subreddit(sub)
+    subreddit = reddit.subreddit(SUB)
     print(f"Connected to: {subreddit.title}")
 
     for submission in subreddit.stream.submissions():
