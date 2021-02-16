@@ -6,7 +6,6 @@ REPLIES = ["If it's stupid but it works, it ain't stupid!"]
 
 
 def main():
-
     print("Connecting to reddit...")
     reddit = praw.Reddit("stupid_bot", config_interpolation="basic")
     subreddit = reddit.subreddit(SUB)
