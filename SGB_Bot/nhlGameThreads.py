@@ -5,14 +5,15 @@ import time
 import praw
 import ast
 
-sub = "ShotGlassBets"
+SUB = "ShotGlassBets"
+BOT = "sgb_bot"
 
 
 def main():
     # set praw variables and connect to subreddit
     print("Connecting to reddit...")
-    r = praw.Reddit("sgb_bot", config_interpolation="basic")
-    subreddit = r.subreddit(sub)
+    reddit = praw.Reddit(BOT, config_interpolation="basic")
+    subreddit = reddit.subreddit(SUB)
     print(f"Connected to: {subreddit.title}")
 
     removePosts(subreddit)
@@ -57,7 +58,7 @@ def removePosts(subreddit):
 
 
 def postNHLThreads(subreddit):
-    print(f"Creating posts for /r/ {sub}")
+    print(f"Creating posts for /r/ {SUB}")
 
     # get dates and set date formats
     today = date.today()

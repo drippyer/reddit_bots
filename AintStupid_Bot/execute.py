@@ -3,11 +3,12 @@ import praw
 
 SUB = "Drip_Test"
 REPLIES = ["If it's stupid but it works, it ain't stupid!"]
+BOT = "stupid_bot"
 
 
 def main():
     print("Connecting to reddit...")
-    reddit = praw.Reddit("stupid_bot", config_interpolation="basic")
+    reddit = praw.Reddit(BOT, config_interpolation="basic")
     subreddit = reddit.subreddit(SUB)
     print(f"Connected to: {subreddit.title}")
 
