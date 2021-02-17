@@ -5,14 +5,16 @@ import time
 import praw
 import ast
 
-sub = "ShotGlassBets"
+SUB = "ShotGlassBets_Testing"
+BOT = "sgb_bot"
 
 
 def main():
     # set praw variables and connect to subreddit
     print("Connecting to reddit...")
-    r = praw.Reddit("sgb_bot", config_interpolation="basic")
-    subreddit = r.subreddit(sub)
+    reddit = praw.Reddit(BOT, config_interpolation="basic")
+    reddit.validate_on_submit = True
+    subreddit = reddit.subreddit(SUB)
     print(f"Connected to: {subreddit.title}")
 
     removePosts(subreddit)
@@ -57,13 +59,13 @@ def removePosts(subreddit):
 
 
 def postNHLThreads(subreddit):
-    print(f"Creating posts for /r/ {sub}")
+    print(f"Creating posts for /r/{SUB}")
 
     # get dates and set date formats
     today = date.today()
     longDay = str(today)
-    simpleDay = str(today.strftime("%-m/%-d"))
-    timeFormat = "%-I:%M %p %Z"
+    simpleDay = f"{today.month}/{today.day}"
+    timeFormat = "%I:%M %p %Z"
 
     # create today's URL for API call
     baseURL = "https://statsapi.web.nhl.com/api/v1"
@@ -85,14 +87,15 @@ def postNHLThreads(subreddit):
         cleanGameDate = rawGameDate.replace(tzinfo=timezone("UTC"))
         easternGameDate = cleanGameDate.astimezone(timezone("US/Eastern"))
         cleanTime = easternGameDate.strftime(timeFormat)
-        teamDict = game["teams"]
-        awayTeam = teamDict["away"]["team"]["name"]
-        homeTeam = teamDict["home"]["team"]["name"]
-        title = f"[{simpleDay}] {homeTeam} vs {awayTeam} ({cleanTime})"
+        awayName = game["teams"]["away"]["team"]["name"]
+        homeName = game["teams"]["home"]["team"]["name"]
+        title = f"[{simpleDay}] {homeName} vs {awayName} ({cleanTime})"
 
         # submit post to reddit
-        subreddit.submit(title, selftext="", url=None, resubmit=True, send_replies=False).mod.flair(text="NHL")
-        print("Posted: {title}")
+        subreddit.submit(
+            title, selftext="", url=None,
+            resubmit=True, send_replies=False).mod.flair(text="NHL")
+        print(f"Posted: {title}")
     print(f"{gameCount} posts submitted\n")
 
 
