@@ -92,7 +92,9 @@ def postNHLThreads(subreddit):
         title = f"[{simpleDay}] {homeName} @ {awayName} ({cleanTime})"
 
         # submit post to reddit
-        subreddit.submit(title, selftext="", url=None, resubmit=True, send_replies=False).mod.flair(text="NHL")
+        subreddit.submit(
+            title, selftext="", url=None,
+            resubmit=True, send_replies=False).mod.flair(text="NHL")
         print(f"Posted: {title}")
     print(f"{gameCount} posts submitted\n")
 
