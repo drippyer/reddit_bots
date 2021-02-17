@@ -89,7 +89,7 @@ def postNHLThreads(subreddit):
         cleanTime = easternGameDate.strftime(timeFormat)
         awayName = game["teams"]["away"]["team"]["name"]
         homeName = game["teams"]["home"]["team"]["name"]
-        title = f"[{simpleDay}] {homeName} @ {awayName} ({cleanTime})"
+        title = f"[{simpleDay}] {homeName} vs {awayName} ({cleanTime})"
 
         # submit post to reddit
         subreddit.submit(
