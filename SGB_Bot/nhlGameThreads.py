@@ -13,6 +13,7 @@ def main():
     # set praw variables and connect to subreddit
     print("Connecting to reddit...")
     reddit = praw.Reddit(BOT, config_interpolation="basic")
+    reddit.validate_on_submit = True
     subreddit = reddit.subreddit(SUB)
     print(f"Connected to: {subreddit.title}")
 
@@ -58,13 +59,13 @@ def removePosts(subreddit):
 
 
 def postNHLThreads(subreddit):
-    print(f"Creating posts for /r/ {SUB}")
+    print(f"Creating posts for /r/{SUB}")
 
     # get dates and set date formats
     today = date.today()
     longDay = str(today)
-    simpleDay = str(today.strftime("%-m/%-d"))
-    timeFormat = "%-I:%M %p %Z"
+    simpleDay = f"{today.month}/{today.day}"
+    timeFormat = "%I:%M %p %Z"
 
     # create today's URL for API call
     baseURL = "https://statsapi.web.nhl.com/api/v1"
@@ -88,11 +89,10 @@ def postNHLThreads(subreddit):
         cleanTime = easternGameDate.strftime(timeFormat)
         awayName = game["teams"]["away"]["team"]["name"]
         homeName = game["teams"]["home"]["team"]["name"]
-        title = f"[{simpleDay}] {homeName} vs {awayName} ({cleanTime})"
+        title = f"[{simpleDay}] {homeName} @ {awayName} ({cleanTime})"
 
         # submit post to reddit
-        subreddit.submit(title, selftext="", url=None, resubmit=True,
-                         send_replies=False).mod.flair(text="NHL")
+        subreddit.submit(title, selftext="", url=None, resubmit=True, send_replies=False).mod.flair(text="NHL")
         print(f"Posted: {title}")
     print(f"{gameCount} posts submitted\n")
 
