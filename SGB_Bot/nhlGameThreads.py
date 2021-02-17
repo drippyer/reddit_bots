@@ -5,7 +5,7 @@ import time
 import praw
 import ast
 
-SUB = "ShotGlassBets"
+SUB = "ShotGlassBets_Testing"
 BOT = "sgb_bot"
 
 
@@ -86,14 +86,14 @@ def postNHLThreads(subreddit):
         cleanGameDate = rawGameDate.replace(tzinfo=timezone("UTC"))
         easternGameDate = cleanGameDate.astimezone(timezone("US/Eastern"))
         cleanTime = easternGameDate.strftime(timeFormat)
-        teamDict = game["teams"]
-        awayTeam = teamDict["away"]["team"]["name"]
-        homeTeam = teamDict["home"]["team"]["name"]
-        title = f"[{simpleDay}] {homeTeam} vs {awayTeam} ({cleanTime})"
+        awayName = game["teams"]["away"]["team"]["name"]
+        homeName = game["teams"]["home"]["team"]["name"]
+        title = f"[{simpleDay}] {homeName} vs {awayName} ({cleanTime})"
 
         # submit post to reddit
-        subreddit.submit(title, selftext="", url=None, resubmit=True, send_replies=False).mod.flair(text="NHL")
-        print("Posted: {title}")
+        subreddit.submit(title, selftext="", url=None, resubmit=True,
+                         send_replies=False).mod.flair(text="NHL")
+        print(f"Posted: {title}")
     print(f"{gameCount} posts submitted\n")
 
 
