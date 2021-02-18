@@ -27,7 +27,7 @@ sudo apt install build-essential tk-dev libncurses5-dev libncursesw5-dev libread
 
 # Download Python tar
 echo "Now downloading Python $PY_VERSION"
-echo "$PY_URL"
+echo "From: $PY_URL"
 read -p "Press Enter to continue..."
 
 cd $TEMP_DIR
@@ -38,11 +38,10 @@ tar -xzvf python.tgz
 
 cd "Python-$PY_VERSION"
 
-# configure and make
+# configure, make, install
 echo "Will now make and install"
 read -p "Press enter to continue..."
 
-# Install
 ./configure --enable-optimizations
 make
 sudo make install
