@@ -1,7 +1,7 @@
 import random
 import praw
 
-SUB = "Drip_Test"
+SUB = "redneckengineering"
 REPLIES = ["If it's stupid but it works, it ain't stupid!"]
 BOT = "stupid_bot"
 

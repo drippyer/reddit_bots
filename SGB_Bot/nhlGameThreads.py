@@ -34,7 +34,7 @@ def removePosts(subreddit):
         numCom = submission.num_comments
         postTitle = submission.title
         postAuthor = submission.author
-        username = "ShotGlassBets_Bot"
+        username = "ShotGlassBets"
 
         # set recency check
         unixTime = time.time()
@@ -65,7 +65,7 @@ def postNHLThreads(subreddit):
     today = date.today()
     longDay = str(today)
     simpleDay = f"{today.month}/{today.day}"
-    timeFormat = "%I:%M %p %Z"
+    timeFormat = "%l:%M %p %Z"
 
     # create today's URL for API call
     baseURL = "https://statsapi.web.nhl.com/api/v1"
