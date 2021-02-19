@@ -5,7 +5,7 @@ import time
 import praw
 import ast
 
-SUB = "ShotGlassBets_Testing"
+SUB = "ShotGlassBets"
 BOT = "sgb_bot"
 
 
