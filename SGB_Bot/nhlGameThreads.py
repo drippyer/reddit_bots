@@ -65,7 +65,7 @@ def postNHLThreads(subreddit):
     today = date.today()
     longDay = str(today)
     simpleDay = f"{today.month}/{today.day}"
-    timeFormat = "%l:%M %p %Z"
+    timeFormat = "%-I:%M %p %Z"
 
     # create today's URL for API call
     baseURL = "https://statsapi.web.nhl.com/api/v1"
