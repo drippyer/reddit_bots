@@ -7,6 +7,11 @@ import ast
 
 SUB = "ShotGlassBets"
 BOT = "sgb_bot"
+SUBMISSION_TEXT = '''
+^This ^comment ^was ^made ^by ^a ^bot.
+^Contact ^[u/drippyer](https://www.reddit.com/user/Drippyer/)
+^for ^concerns.
+                 '''
 
 
 def main():
@@ -93,7 +98,7 @@ def postNHLThreads(subreddit):
 
         # submit post to reddit
         subreddit.submit(
-            title, selftext="", url=None,
+            title, selftext=SUBMISSION_TEXT, url=None,
             resubmit=True, send_replies=False).mod.flair(text="NHL")
         print(f"Posted: {title}")
     print(f"{gameCount} posts submitted\n")
