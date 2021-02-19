@@ -1,2 +1,2 @@
 #!/bin/sh
-pipenv run python3 execute.py
+pipenv run python3 aintStupidStream.py
