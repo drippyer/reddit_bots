@@ -34,7 +34,7 @@ def removePosts(subreddit):
         numCom = submission.num_comments
         postTitle = submission.title
         postAuthor = submission.author
-        username = "ShotGlassBets"
+        username = "ShotGlassBets_Bot"
 
         # set recency check
         unixTime = time.time()
